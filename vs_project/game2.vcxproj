@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{6D0B930C-B6F0-43BB-89A7-E17EE1DAF674}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);E:\Coding\CMU\15466\nest-mess</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\ColorProgram.cpp" />
+    <ClCompile Include="..\ColorTextureProgram.cpp" />
+    <ClCompile Include="..\data_path.cpp" />
+    <ClCompile Include="..\DrawLines.cpp" />
+    <ClCompile Include="..\GL.cpp" />
+    <ClCompile Include="..\gl_compile_program.cpp" />
+    <ClCompile Include="..\LitColorTextureProgram.cpp" />
+    <ClCompile Include="..\Load.cpp" />
+    <ClCompile Include="..\load_save_png.cpp" />
+    <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\Mesh.cpp" />
+    <ClCompile Include="..\Mode.cpp" />
+    <ClCompile Include="..\PathFont-font.cpp" />
+    <ClCompile Include="..\PathFont.cpp" />
+    <ClCompile Include="..\PlayMode.cpp" />
+    <ClCompile Include="..\Scene.cpp" />
+    <ClCompile Include="..\show-meshes.cpp" />
+    <ClCompile Include="..\show-scene.cpp" />
+    <ClCompile Include="..\ShowMeshesMode.cpp" />
+    <ClCompile Include="..\ShowMeshesProgram.cpp" />
+    <ClCompile Include="..\ShowSceneMode.cpp" />
+    <ClCompile Include="..\ShowSceneProgram.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ColorProgram.hpp" />
+    <ClInclude Include="..\ColorTextureProgram.hpp" />
+    <ClInclude Include="..\data_path.hpp" />
+    <ClInclude Include="..\DrawLines.hpp" />
+    <ClInclude Include="..\GL.hpp" />
+    <ClInclude Include="..\glcorearb.h" />
+    <ClInclude Include="..\gl_compile_program.hpp" />
+    <ClInclude Include="..\gl_errors.hpp" />
+    <ClInclude Include="..\LitColorTextureProgram.hpp" />
+    <ClInclude Include="..\Load.hpp" />
+    <ClInclude Include="..\load_save_png.hpp" />
+    <ClInclude Include="..\Mesh.hpp" />
+    <ClInclude Include="..\Mode.hpp" />
+    <ClInclude Include="..\PathFont.hpp" />
+    <ClInclude Include="..\PlayMode.hpp" />
+    <ClInclude Include="..\read_write_chunk.hpp" />
+    <ClInclude Include="..\Scene.hpp" />
+    <ClInclude Include="..\ShowMeshesMode.hpp" />
+    <ClInclude Include="..\ShowMeshesProgram.hpp" />
+    <ClInclude Include="..\ShowSceneMode.hpp" />
+    <ClInclude Include="..\ShowSceneProgram.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Jamfile" />
+    <None Include="..\scenes\Makefile" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
