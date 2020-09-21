@@ -16,6 +16,17 @@ struct PlayMode : Mode {
 	virtual void update(float elapsed, bool *quit_asap) override;
 	virtual void draw(glm::uvec2 const &drawable_size) override;
 
+	//----- settings -----
+	const float PLAYER_X_MIN = -8.0f;
+	const float PLAYER_X_MAX = 100.0f;
+	const float PLAYER_Y_MIN = -22.0f;
+	const float PLAYER_Y_MAX = 25.0f;
+
+	const float GATE_RAD = 3.0f;
+
+	const glm::vec3 PICKUP_OFFSET = glm::vec3(0.0f, 3.0f, 1.3f);
+	const float PICKUP_RAD = 3.0f;
+
 	//----- game state -----
 
 	//input tracking:
@@ -43,5 +54,29 @@ struct PlayMode : Mode {
 
 	//player:
 	Scene::Transform *player = nullptr;
+	Scene::Transform *pickupPt = nullptr;
+
+	enum class COLOR{
+		NO_COLOR, RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE
+	};
+
+	//tiles:
+	struct Tile {
+		Scene::Transform *transform = nullptr;
+		COLOR color = COLOR::NO_COLOR;
+	};
+	std::vector<Tile> tiles;
+	Tile *carried_tile = nullptr;
+
+	//pegs:
+	struct Peg {
+		Scene::Transform *transform = nullptr;
+	} peg0;
+
+	//gates:
+	struct Gate {
+		Scene::Transform *transform = nullptr;
+		bool open = false;
+	} gate0, gate1;
 
 };

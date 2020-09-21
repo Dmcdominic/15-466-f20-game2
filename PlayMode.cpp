@@ -55,15 +55,37 @@ PlayMode::PlayMode() : scene(*room_scene) {
 	if (scene.cameras.size() != 1) throw std::runtime_error("Expecting scene to have exactly one camera, but it has " + std::to_string(scene.cameras.size()));
 	camera = &scene.cameras.front();
 
-	//get pointer to player
+	//init tiles vector
+	tiles = std::vector<Tile>(1);
+	tiles[0].color = COLOR::RED;
+
+	//get pointer to player, tiles, pegs, and gates
 	for (auto& transform : scene.transforms) {
 		if (transform.name == "Player") player = &transform;
+		//if (transform.name == "PickupPt") pickupPt = &transform;
+		if (transform.name == "Tile0") tiles[0].transform = &transform;
+		if (transform.name == "Peg0") peg0.transform = &transform;
+		if (transform.name == "Gate0") gate0.transform = &transform;
+		if (transform.name == "Gate1") gate1.transform = &transform;
 	}
+	// Check for missing transforms
 	if (player == nullptr) throw std::runtime_error("Player not found.");
+	//if (pickupPt == nullptr) throw std::runtime_error("pickupPt not found.");
+	if (peg0.transform == nullptr) throw std::runtime_error("peg0 not found.");
+	if (gate0.transform == nullptr) throw std::runtime_error("gate0 not found.");
+	if (gate1.transform == nullptr) throw std::runtime_error("gate1 not found.");
+	for (auto tileIter = tiles.begin(); tileIter != tiles.end(); tileIter++) {
+		if (tileIter->transform == nullptr) {
+			std::cerr << "missing tile " << (tileIter - tiles.begin()) << std::endl;
+			throw std::runtime_error("tile not found.");
+		}
+	}
+
+	// TEMP - switched pickupPt to be player
+	pickupPt = player;
 }
 
-PlayMode::~PlayMode() {
-}
+PlayMode::~PlayMode() {}
 
 bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size) {
 
@@ -71,23 +93,55 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
 		if (evt.key.keysym.sym == SDLK_ESCAPE) {
 			SDL_SetRelativeMouseMode(SDL_FALSE);
 			return true;
-		} else if (evt.key.keysym.sym == SDLK_a) {
+		} else if (evt.key.keysym.sym == SDLK_a) { // LEFT button
 			left.downs += 1;
 			left.pressed = true;
 			return true;
-		} else if (evt.key.keysym.sym == SDLK_d) {
+		} else if (evt.key.keysym.sym == SDLK_d) { // RIGHT button
 			right.downs += 1;
 			right.pressed = true;
 			return true;
-		} else if (evt.key.keysym.sym == SDLK_w) {
+		} else if (evt.key.keysym.sym == SDLK_w) { // UP button
 			up.downs += 1;
 			up.pressed = true;
 			return true;
-		} else if (evt.key.keysym.sym == SDLK_s) {
+		} else if (evt.key.keysym.sym == SDLK_s) { // DOWN button
 			down.downs += 1;
 			down.pressed = true;
 			return true;
-		} else if (evt.key.keysym.sym == SDLK_q) {
+		} else if (evt.key.keysym.sym == SDLK_e) { // PICK UP button
+			// Drop tile, if you're already carrying one
+			if (carried_tile != nullptr) {
+				// TODO - check if you're near a peg to place it there instead
+				carried_tile->transform->position = glm::vec3(carried_tile->transform->make_local_to_world()[3]);
+				carried_tile->transform->parent = nullptr;
+				carried_tile = nullptr;
+				return true;
+			}
+			std::cout << "no tile currently being carried" << std::endl;
+			// Pickup nearby tile, if there is one
+			for (auto tilesIter = tiles.begin(); tilesIter != tiles.end(); tilesIter++) {
+			glm::vec3 tilePos = glm::vec3(tilesIter->transform->make_local_to_world()[3]);
+			glm::vec3 pickupPtPos = glm::vec3(pickupPt->make_local_to_world()[3]) + glm::vec3(PICKUP_OFFSET * pickupPt->make_local_to_world());
+			std::cout << "tilePos.x = " << tilePos.x << std::endl;
+			std::cout << "tilePos.y = " << tilePos.y << std::endl;
+			std::cout << "tilePos.z = " << tilePos.z << std::endl;
+			std::cout << "pickupPtPos.x = " << pickupPtPos.x << std::endl;
+			std::cout << "pickupPtPos.y = " << pickupPtPos.y << std::endl;
+			std::cout << "pickupPtPos.z = " << pickupPtPos.z << std::endl;
+				float dist = glm::length(tilePos - pickupPtPos);
+				std::cout << dist << std::endl;
+				if (dist < PICKUP_RAD) {
+					std::cout << "tile is close enough!" << std::endl;
+					carried_tile = &(*tilesIter);
+					carried_tile->transform->position = PICKUP_OFFSET;
+					carried_tile->transform->parent = pickupPt;
+					return true;
+				}
+				std::cout << "passed one tile" << std::endl;
+			}
+			std::cout << "passed ALL tiles" << std::endl;
+		} else if (evt.key.keysym.sym == SDLK_q) { // QUIT button
 			quit_pressed = true;
 			return true;
 		}
@@ -199,6 +253,9 @@ void PlayMode::update(float elapsed, bool *quit_asap) {
 		//glm::vec3 forward = -frame[2];
 
 		//camera->transform->position += move.x * right + move.y * forward;
+
+		// Bound the camera's position by the same as the player's X min & max
+		camera->transform->position.x = std::min(PLAYER_X_MAX, std::max(PLAYER_X_MIN, camera->transform->position.x));
 	}
 
 	//move player:
@@ -232,6 +289,22 @@ void PlayMode::update(float elapsed, bool *quit_asap) {
 
 		player->position += move.y * right;
 		player->rotation *= glm::angleAxis(rot.z, glm::vec3(0.0f, 0.0f, 1.0f));
+
+		//Bound the player's position
+		player->position.x = std::min(PLAYER_X_MAX, std::max(PLAYER_X_MIN, player->position.x));
+		player->position.y = std::min(PLAYER_Y_MAX, std::max(PLAYER_Y_MIN, player->position.y));
+	}
+
+	//bound the camera AND player to the gates
+	{
+		if (gate0.transform != nullptr && !gate0.open) {
+			player->position.x = std::min(gate0.transform->position.x - GATE_RAD, player->position.x);
+			camera->transform->position.x = std::min(gate0.transform->position.x - GATE_RAD, camera->transform->position.x);
+		}
+		if (gate1.transform != nullptr && !gate1.open) {
+			player->position.x = std::min(gate1.transform->position.x - GATE_RAD, player->position.x);
+			camera->transform->position.x = std::min(gate1.transform->position.x - GATE_RAD, camera->transform->position.x);
+		}
 	}
 
 	//reset button press counters:
