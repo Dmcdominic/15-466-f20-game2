@@ -150,5 +150,6 @@
   <ItemGroup>
     <None Include="..\scenes\Makefile" />
     <None Include="..\Jamfile" />
+    <None Include="..\scenes\Makefile.windows" />
   </ItemGroup>
 </Project>

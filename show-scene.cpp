@@ -207,8 +207,12 @@ int main(int argc, char **argv) {
 			//lag to avoid spiral of death:
 			elapsed = std::min(0.1f, elapsed);
 
-			Mode::current->update(elapsed);
-			if (!Mode::current) break;
+			bool quit_asap = false;
+			Mode::current->update(elapsed, &quit_asap);
+			if (quit_asap) {
+				Mode::set_current(nullptr);
+				break;
+			}
 		}
 
 		{ //(3) call the current mode's "draw" function to produce output:
