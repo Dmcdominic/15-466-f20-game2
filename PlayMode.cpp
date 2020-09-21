@@ -203,27 +203,35 @@ void PlayMode::update(float elapsed, bool *quit_asap) {
 
 	//move player:
 	{
-		//combine inputs into a move:
 		constexpr float PlayerSpeed = 8.0f;
+		constexpr float PlayerAngularSpeed = 0.05f;
+		//combine inputs into a move:
 		glm::vec2 move = glm::vec2(0.0f);
-		if (left.pressed && !right.pressed) move.x =-1.0f;
-		if (!left.pressed && right.pressed) move.x = 1.0f;
 		if (down.pressed && !up.pressed) move.y =-1.0f;
 		if (!down.pressed && up.pressed) move.y = 1.0f;
 
+		//rotation:
+		glm::vec3 rot = glm::vec3(0.0f);
+		if (left.pressed && !right.pressed) rot.z = 1.0f;
+		if (!left.pressed && right.pressed) rot.z =-1.0f;
+
 		//make it so that moving diagonally doesn't go faster:
 		if (move != glm::vec2(0.0f)) move = glm::normalize(move) * PlayerSpeed * elapsed;
+		//scale rot by PlayerAngularSpeed
+		rot *= PlayerAngularSpeed;
 
-		// Absolute camera movement
-		player->position += move.x * glm::vec3(1.0f, 0, 0) + move.y * glm::vec3(0, 1.0f, 0);
+		// Absolute player movement
+		/*player->position += move.x * glm::vec3(1.0f, 0, 0) + move.y * glm::vec3(0, 1.0f, 0);
+		player->rotation *= glm::angleAxis(rot.z, glm::vec3(0.0f, 0.0f, 1.0f));*/
 
-		// Relative camera movement
-		//glm::mat4x3 frame = camera->transform->make_local_to_parent();
-		//glm::vec3 right = frame[0];
-		// //glm::vec3 up = frame[1];
-		//glm::vec3 forward = -frame[2];
+		// Relative player movement
+		glm::mat4x3 frame = player->make_local_to_parent();
+		glm::vec3 right = frame[0];
+		glm::vec3 up = frame[1];
+		glm::vec3 forward = -frame[2];
 
-		//camera->transform->position += move.x * right + move.y * forward;
+		player->position += move.y * right;
+		player->rotation *= glm::angleAxis(rot.z, glm::vec3(0.0f, 0.0f, 1.0f));
 	}
 
 	//reset button press counters:
