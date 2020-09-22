@@ -3,6 +3,7 @@
 Author: Dominic Calkosz
 
 Design: A short 3D puzzle game that separates the player from their camera.
+Can be played singleplayer, or 2-player with one on WASD and the other on mouse.
 
 Screen Shot:
 
