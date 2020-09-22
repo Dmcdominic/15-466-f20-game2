@@ -311,7 +311,7 @@ void PlayMode::update(float elapsed, bool *quit_asap) {
 			if (gateIter->open) {
 				gateIter->transform->position.z = std::min(GATE_MIN_Z + GATE_RAISE_HEIGHT, gateIter->transform->position.z + GATE_SPEED * elapsed);
 			} else {
-				gateIter->transform->position.z = std::max(GATE_MIN_Z, gateIter->transform->position.z - GATE_SPEED * 3.5f * elapsed);
+				gateIter->transform->position.z = std::max(GATE_MIN_Z, gateIter->transform->position.z - GATE_SPEED * 1.5f * elapsed);
 			}
 		}
 	}
@@ -389,8 +389,8 @@ void PlayMode::update(float elapsed, bool *quit_asap) {
 		// Relative player movement
 		glm::mat4x3 frame = player->make_local_to_parent();
 		glm::vec3 right = frame[0];
-		glm::vec3 up = frame[1];
-		glm::vec3 forward = -frame[2];
+		//glm::vec3 up = frame[1];
+		//glm::vec3 forward = -frame[2];
 
 		player->position += move.y * right;
 		player->rotation *= glm::angleAxis(rot.z, glm::vec3(0.0f, 0.0f, 1.0f));

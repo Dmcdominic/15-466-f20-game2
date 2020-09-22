@@ -1,8 +1,8 @@
-# (TODO: your game's title)
+# Out of Body
 
-Author: (TODO: your name)
+Author: Dominic Calkosz
 
-Design: (TODO: In two sentences or fewer, describe what is new and interesting about your game.)
+Design: A short 3D puzzle game that separates the player from their camera.
 
 Screen Shot:
 
@@ -10,9 +10,14 @@ Screen Shot:
 
 How To Play:
 
-(TODO: describe the controls and (if needed) goals/strategy.)
+* WASD to move your body.
+* Mouse to look around with the camera.
+* Left/right mouse button to slide the camera.
+* E to interact.
+* escape to ungrab the mouse.
+* Q to quit.
 
-Sources: (TODO: list a source URL for any assets you did not create yourself. Make sure you have a license for the asset.)
+Sources: All assets haphazardly made by me in Blender.
 
 This game was built with [NEST](NEST.md).
 

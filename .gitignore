@@ -8,3 +8,7 @@ dist/game.exe
 scenes/show-meshes*
 scenes/show-scene*
 *.blend[0-9]
+
+dist/OutOfBody.ilk
+dist/OutOfBody.pdb
+dist/OutOfBody.exe

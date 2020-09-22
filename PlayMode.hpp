@@ -31,7 +31,7 @@ struct PlayMode : Mode {
 	const glm::quat TILE_PICKUP_ROTATION = glm::vec3(1.0f, 0.0f, M_PI * 0.5f);
 	glm::quat TILE_STD_ROTATION = glm::vec3(0.0f, 0.0f, 90.0f);
 
-	const float GATE_SPEED = 5.5f;
+	const float GATE_SPEED = 9.5f;
 	float GATE_MIN_Z;
 	float GATE_RAISE_HEIGHT = 20.0f;
 
