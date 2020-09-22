@@ -18,22 +18,24 @@ struct PlayMode : Mode {
 
 	//----- settings -----
 	const float PLAYER_X_MIN = -8.0f;
-	const float PLAYER_X_MAX = 100.0f;
+	const float PLAYER_X_MAX = 300.0f;
 	const float PLAYER_Y_MIN = -22.0f;
 	const float PLAYER_Y_MAX = 25.0f;
 
 	const float GATE_RAD = 3.0f;
 
-	const float PEG_RAD = 3.0f;
+	const float PEG_RAD = 5.0f;
 
 	const float PICKUP_RAD = 3.0f;
 	const glm::vec3 TILE_PICKUP_POS = glm::vec3(2.7f, 0.0f, 1.3f);
 	const glm::quat TILE_PICKUP_ROTATION = glm::vec3(1.0f, 0.0f, M_PI * 0.5f);
 	glm::quat TILE_STD_ROTATION = glm::vec3(0.0f, 0.0f, 90.0f);
 
-	const float GATE_SPEED = 4.0f;
+	const float GATE_SPEED = 5.5f;
 	float GATE_MIN_Z;
 	float GATE_RAISE_HEIGHT = 20.0f;
+
+	glm::vec3 HANGING_STR_OFFSET;
 
 	//----- game state -----
 
@@ -64,17 +66,22 @@ struct PlayMode : Mode {
 	Scene::Transform *player = nullptr;
 	Scene::Transform *pickupPt = nullptr;
 
+	Scene::Transform *hangingStr0 = nullptr;
+	Scene::Transform *hangingStr1 = nullptr;
+
 	enum class COLOR{
-		NO_COLOR, RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE
+		NO_COLOR, RED, ORANGE, YELLOW, GREEN, PINK, PURPLE
 	};
 
-	struct Peg;
 
 	//tiles:
+	struct Peg;
 	struct Tile {
 		Scene::Transform *transform = nullptr;
 		Peg *peg = nullptr;
 		COLOR color = COLOR::NO_COLOR;
+		bool hanging = false;
+		glm::vec3 hanging_offset = glm::vec3(0.0f);
 	};
 	std::vector<Tile> tiles;
 	Tile *carried_tile = nullptr;
@@ -86,6 +93,7 @@ struct PlayMode : Mode {
 		COLOR color = COLOR::NO_COLOR;
 	};
 	std::vector<Peg> pegs;
+	glm::vec3 spinning_tile_rot = glm::vec3(0.0f, 0.0f, M_PI * 0.5f);
 
 	//gates:
 	struct Gate {
